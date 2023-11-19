@@ -1,0 +1,21 @@
+.underline-on-hover[b-ltxcc07ukp] {
+    position: relative;
+    display: inline-block;
+}
+
+.underline-on-hover[b-ltxcc07ukp]::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #fff;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease-in-out;
+}
+
+.underline-on-hover:hover[b-ltxcc07ukp]::before {
+    transform: scaleX(1);
+}

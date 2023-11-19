@@ -1,0 +1,85 @@
+﻿@model IEnumerable<Project>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<head>
+    <link rel="stylesheet" href="" />
+</head>
+<body>
+    <div class="container">
+        <div class="text-white-50 text-center">
+            <h1 class="display-4">Дорожная компания</h1>
+            <h3>Наши популярные проекты:</h3>
+        </div>
+        <div class="d-flex justify-content-between mt2">
+            @foreach (var item in Model)
+            {
+                <div class="bg-dark">
+                    <div class="text-white-50">
+                        <p>@item.ProjectName</p>
+                        <div class="map_item"
+                             id="map" style="height: 300px; width: 380px"
+                             data-item='@Html.Raw(Json.Serialize(item))'></div>
+                        <p>@item.StartDate.ToLongDateString() - @item.EndDate.ToLongDateString()</p>
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="text-center w-100">
+            <a class="text-decoration-none text-white" 
+                asp-controller="Project" 
+                asp-action="Index"
+            >
+                <h4 class="underline-on-hover">
+                    Список всех проектов
+                </h4>
+                <i class="bi bi-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</body>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWdivpGSvsdwx_yGzabjOnqrD2ggzUgsQ&callback=initMap"></script>
+<script>
+    var maps = document.querySelectorAll('.map_item');
+
+    Array.from(maps).map(e => {
+        var item = JSON.parse(e.getAttribute('data-item'));
+        initMap(e, item);
+    });
+
+    function initMap(mapElement, item) {
+        var map;
+
+        var lat_start = item.startPointLat;
+        var lat_end = item.endPointLat;
+        var lng_start = item.startPointLng;
+        var lng_end = item.endPointLng;
+
+        var centerLat = (lat_start + lat_end) / 2;
+        var centerLng = (lng_start + lng_end) / 2;
+
+        var lineCoordinates = [
+            { lat: lat_start, lng: lng_start },
+            { lat: lat_end, lng: lng_end }
+        ];
+
+        map = new google.maps.Map(mapElement, {
+            center: { lat: centerLat, lng: centerLng },
+            zoom: 16
+        });
+
+        var line = new google.maps.Polyline({
+            path: lineCoordinates,
+            geodesic: true,
+            strokeColor: '#5ea832',
+            strokeOpacity: 1.0,
+            strokeWeight: 5
+        });
+
+        line.setMap(map);
+    }
+</script>
+

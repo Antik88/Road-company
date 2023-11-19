@@ -1,0 +1,121 @@
+﻿@model Project
+@{
+}
+
+@*         public string ProjectName { get; set; }
+        public string Description { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string RoadAddress { get; set; }
+        public double startPointLat { get; set; }
+        public double startPointLng { get; set; }
+        public double endPointLat { get; set; }
+        public double endPointLng { get; set; }
+ *@
+
+<form class="container text-white-50">
+    <div class="form-group">
+        <label for="">Имя проекта</label>
+        <input type="text" class="form-control"
+               id="name" aria-describedby="" placeholder="Имя проекта">
+    </div>
+    <div class="form-group">
+        <label for="">Описание</label>
+        <input type="text" class="form-control" id="" placeholder="Описание">
+    </div>
+    <div class="form-group">
+        <label for="">Дата начала работ</label>
+        <input type="date" class="form-control" id="" placeholder="">
+    </div>
+    <div class="form-group">
+        <label for="">Дата окончания работ</label>
+        <input type="date" class="form-control" id="" placeholder="">
+    </div>
+
+    <div class="d-flex">
+        <div class="map_item mt-2"
+             id="map" style="height: 500px; width: 580px"></div>
+
+        <button id="clearMarkers" class="btn btn-primary"
+        style="width:100px; height:70px"
+        >Убрать маркеры</button>
+
+        <div class="flex-column">
+            <div class="d-flex flex-lg-row">
+                <p class="me-2">Координаты начала дороги: </p>
+                <p id="startMarkerLat" class="me-2"></p>
+                <p id="startMarkerLng"></p>
+            </div>
+            <div class="d-flex flex-lg-row">
+                <p class="me-2">Координаты конца дороги: </p>
+                <p id="endMarkerLat" class="me-2"></p>
+                <p id="endMarkerLng"></p>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" >Submit</button>
+</form>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWdivpGSvsdwx_yGzabjOnqrD2ggzUgsQ&callback=initMap"></script>
+<script>
+    var map;
+    var markers = [];
+    var maxMarkers = 2;
+
+    function initMap() {
+        var mapElement = document.querySelector('.map_item');
+
+        var centerLat = 53.897996128465444;
+        var centerLng = 30.33279244421068;
+
+        map = new google.maps.Map(mapElement, {
+            center: { lat: centerLat, lng: centerLng },
+            zoom: 16
+        });
+
+        map.addListener('click', function (event) {
+            if (markers.length < maxMarkers) {
+                placeMarker(event.latLng);
+
+                if (markers.length == 1) {
+                    document.getElementById('startMarkerLat').innerHTML = event.latLng.lat()
+                    document.getElementById('startMarkerLng').innerHTML = event.latLng.lng()
+                }
+                else {
+                    document.getElementById('endMarkerLat').innerHTML = event.latLng.lat()
+                    document.getElementById('endMarkerLng').innerHTML = event.latLng.lng()
+                }
+            }
+        });
+
+        document.getElementById('clearMarkers').addEventListener('click', function () {
+            event.preventDefault();
+
+            clearMarkers();;
+        });
+
+        function placeMarker(location) {
+            var marker = new google.maps.Marker({
+                position: location,
+                map: map
+            });
+
+            markers.push(marker);
+        }
+
+        function clearMarkers() {
+            markers.forEach(function (marker) {
+                marker.setMap(null);
+            });
+
+            markers = [];
+            document.getElementById('startMarkerLat').innerHTML = ''
+            document.getElementById('startMarkerLng').innerHTML = ''
+            document.getElementById('endMarkerLat').innerHTML = ''
+            document.getElementById('endMarkerLng').innerHTML = ''
+        }
+    }
+
+    initMap()
+</script>

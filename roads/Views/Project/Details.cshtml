@@ -1,0 +1,108 @@
+﻿@model Project
+
+@{
+}
+
+<div class="container text-white-50">
+    <div class="row mt-2">
+        <div class="col">
+            <div class="bg-dark">
+                <div class="text-white-50">
+                    <div class="map_item"
+                         id="map" style="height: 500px; width: 580px"
+                         data-item='@Html.Raw(Json.Serialize(Model))'></div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <h3>@Model.ProjectName</h3>
+            <p>
+                Отметка о выполнении: @Model.ProjectStatus.Status
+                <br />@Model.Description
+                <br />Дата: @Model.StartDate.ToLongDateString() - @Model.EndDate.ToLongDateString()
+            </p>
+            <button class="btn btn-outline-secondary"
+                    type="button" name="btnLink" id="btnLink">
+                Дополнительно
+            </button>
+            <div class="mt-2">
+                <a class="text-decoration-none text-white-50" asp-controller="Project"
+                   asp-action="Index">
+                    <h6>
+                        <i class="bi bi-arrow-left"></i>
+                        Назад
+                    </h6>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="ModalPopUp" role="document">
+    <div class="modal-dialog err-pop" style="">
+        <div class="modal-content">
+            <div class="modal-body" style="text-align:center;">
+                <p>Всего задач: @Model.Tasks.Count</p>
+                <ul>
+                    @foreach (var t in Model.Tasks)
+                    {
+                        <li>
+                            @t.Description - @t.Status
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-1.10.0.min.js"
+        integrity="sha256-2+LznWeWgL7AJ1ciaIG5rFP7GKemzzl+K75tRyTByOE="
+        crossorigin="anonymous"></script>
+<script>
+    $("#btnLink").click(function () {
+        $('#ModalPopUp').modal('show');
+    })
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWdivpGSvsdwx_yGzabjOnqrD2ggzUgsQ&callback=initMap"></script>
+<script>
+    var map = document.querySelector('.map_item');
+
+    var item = JSON.parse(map.getAttribute('data-item'));
+    initMap(map, item);
+
+    function initMap(mapElement, item) {
+        var map;
+
+        var lat_start = item.startPointLat;
+        var lat_end = item.endPointLat;
+        var lng_start = item.startPointLng;
+        var lng_end = item.endPointLng;
+
+        var centerLat = (lat_start + lat_end) / 2;
+        var centerLng = (lng_start + lng_end) / 2;
+
+        var lineCoordinates = [
+            { lat: lat_start, lng: lng_start },
+            { lat: lat_end, lng: lng_end }
+        ];
+
+        map = new google.maps.Map(mapElement, {
+            center: { lat: centerLat, lng: centerLng },
+            zoom: 16
+        });
+
+        var line = new google.maps.Polyline({
+            path: lineCoordinates,
+            geodesic: true,
+            strokeColor: '#5ea832',
+            strokeOpacity: 1.0,
+            strokeWeight: 5
+        });
+
+        line.setMap(map);
+    }
+</script>
+

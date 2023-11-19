@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Project>
+
+@{
+}
+
+<div class="container">
+    <h2 class="text-white-50 mt-2">Все проекты</h2>
+    <table class="table text-white">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Start date</th>
+                <th scope="col">End date</th>
+                <th scope="col">Road address</th>
+                <th scope="col">More</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.ProjectName</td>
+                    <td>@item.ProjectStatus.Status</td>
+                    <td>@item.StartDate.Date.ToString("d")</td>
+                    <td>@item.EndDate.ToString("d")</td>
+                    <td>@item.RoadAddress</td>
+                    <td>
+                        <a asp-controller="Project"
+                           asp-action="Details" asp-route-id="@item.Id"
+                           class="text-decoration-none text-white-50">
+                            More
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
