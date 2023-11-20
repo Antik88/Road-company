@@ -5,6 +5,34 @@
 
 <div class="container">
     <h2 class="text-white-50 mt-2">Все проекты</h2>
+
+    <div class="form-group">
+        <label for="searchInput">Поиск</label>
+        <input id="searchInput" type="text" style="width: 300px" class="form-control mb-3" placeholder="Поиск">
+    </div>
+
+    <div class="d-flex text-white-50">
+        <div class="form-check me-3">
+            <input id="nameSearchToggle" class="form-check-input" type="radio" name="searchType" value="name" checked>
+            <label class="form-check-label" for="nameSearchToggle">
+                Поиск по имени
+            </label>
+        </div>
+        <div class="form-check mt-6">
+            <input id="citySearchToggle" class="form-check-input" type="radio" name="searchType" value="city">
+            <label class="form-check-label" for="citySearchToggle">
+                Поиск по адресу
+            </label>
+        </div>
+    </div>
+    <div class="form-check mt-2 text-white-50">
+        <input id="doneProjectsToggle" class="form-check-input" type="checkbox">
+        <label class="form-check-label" for="doneProjectsToggle">
+            Показать только завершенные проекты
+        </label>
+    </div>
+
+
     <table class="table text-white">
         <thead class="thead-dark">
             <tr>
@@ -47,3 +75,44 @@
         </tbody>
     </table>
 </div>
+
+<script>
+    var searchInput = document.getElementById('searchInput');
+    var nameSearchToggle = document.getElementById('nameSearchToggle');
+    var citySearchToggle = document.getElementById('citySearchToggle');
+    var rows = document.querySelectorAll('tbody tr');
+
+    searchInput.addEventListener('input', function () {
+        var searchText = searchInput.value.toLowerCase();
+        var searchType = nameSearchToggle.checked ? 'name' : 'city';
+
+        rows.forEach(function (row) {
+            var name = row.querySelector('td:nth-child(2)').textContent.toLowerCase();
+            var address = row.querySelector('td:nth-child(6)').textContent.toLowerCase();
+
+            if (searchType === 'name' && name.includes(searchText)) {
+                row.style.display = '';
+            } else if (searchType === 'city' && address.includes(searchText)) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+
+    doneProjectsToggle.addEventListener('change', function () {
+        var checked = doneProjectsToggle.checked;
+
+        rows.forEach(function (row) {
+            var status = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+
+            if (checked && status === 'done') {
+                row.style.display = '';
+            } else if (!checked) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    });
+</script>

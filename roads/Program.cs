@@ -15,6 +15,7 @@ namespace roads
             builder.Services.AddControllersWithViews();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
             builder.Services.AddScoped<IProjectRepository, ProjectRepository>();
+            builder.Services.AddScoped<ITaskRepository, TaskRepository>();
 
             var connectionSthing = builder.Configuration.GetConnectionString("AppDbConnectiongString");
 

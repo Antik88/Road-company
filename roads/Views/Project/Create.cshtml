@@ -50,7 +50,7 @@
             </div>
             <div class="d-flex flex-lg-row">
                 <p class="me-2">Адрес участка дороги: </p>
-                <input asp-for="RoadAddress" id="address" type="hidden"/>
+                <input asp-for="RoadAddress" id="address" type="hidden" />
                 <span asp-validation-for="RoadAddress" class="text-danger"></span>
                 <p id="addressDisplay" style="max-width: 200px"></p>
             </div>
@@ -58,11 +58,42 @@
                     style="width:160px; height:40px">
                 Убрать маркеры
             </button>
+            <div id="tasksContainer">
+                <div class="form-group mt-2">
+                    <h6>Задачи: </h6>
+                    <label asp-for="Tasks[0].Description">Описание задачи</label>
+                    <input asp-for="Tasks[0].Description" type="text" class="form-control" placeholder="Описание" required>
+                    <input asp-for="Tasks[0].Status" type="hidden" class="form-control" value="initial">
+                    <span asp-validation-for="Tasks[0].Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <a id="addTaskButton" class="btn btn-primary mt-2" style="width:160px; height:40px">
+                Добавить задачу
+            </a>
         </div>
     </div>
 
     <button type="submit" class="btn btn-primary mt-2">Submit</button>
 </form>
+
+<script>
+    var tasksContainer = document.getElementById('tasksContainer');
+    var addTaskButton = document.getElementById('addTaskButton');
+    var taskId = 1;
+
+    addTaskButton.addEventListener('click', function () {
+        var taskHtml = `
+            <div class="form-group">
+                <label>Описание задачи</label>
+                <input name="Tasks[${taskId}].Description" type="text" class="form-control" placeholder="Описание" required>
+                <input name="Tasks[${taskId}].Status" type="hidden" class="form-control" value="initial">
+            </div>
+        `;
+        tasksContainer.insertAdjacentHTML('beforeend', taskHtml);
+        taskId++;
+    });
+</script>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWdivpGSvsdwx_yGzabjOnqrD2ggzUgsQ&callback=initMap"></script>
 <script>
@@ -90,7 +121,7 @@
                     document.getElementById('startMarkerLng').value = event.latLng.lng()
 
                     console.log(
-                        document.getElementById('startMarkerLat').value + " " + 
+                        document.getElementById('startMarkerLat').value + " " +
                         document.getElementById('startMarkerLng').value
                     )
 

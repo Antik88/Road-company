@@ -2,11 +2,8 @@
 {
     public interface ITaskRepository
     {
-        Task<IEnumerable<Task>> GetAll();
-        Task<Task> GetByIdAsync(int id);
-        bool Add(Task task);
-        bool Update(Task task);
-        bool Delete(Task task);
+        Task<Models.Task> GetTasById(int id);
+        bool DeleteTask(Models.Task task);
         bool Save();
     }
 }

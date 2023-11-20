@@ -67,11 +67,21 @@
                     @foreach (var t in Model.Tasks)
                     {
                         <li>
-                            @t.Description - @t.Status (<a asp-controller="Project"
-                                                           asp-action="EditTask"
-                                                           asp-route-id="@t.Id">
-                                Edit
-                            </a>)
+                            <div class="d-flex justify-content-center align-center">
+                                <p class="mt-1">
+                                    @t.Description - @t.Status (<a asp-controller="Project"
+                                                                   asp-action="EditTask"
+                                                                   asp-route-id="@t.Id">
+                                        Edit
+                                    </a>)
+                                </p>
+                                <form method="post" asp-action="Delete" asp-controller="Task"
+                                      asp-action="DeleteTask" asp-route-id="@t.Id" class="form-inline">
+                                    <button type="submit" class="btn btn-link">
+                                        <i class="bi bi-x-circle-fill text-muted"></i>
+                                    </button>
+                                </form>
+                            </div>
                         </li>
                     }
                 </ul>

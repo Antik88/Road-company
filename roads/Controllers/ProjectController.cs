@@ -208,5 +208,23 @@ namespace roads.Controllers
             _projectRepository.UpdateTask(task);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var project = await _projectRepository.GetByIdAsync(id);
+            if (project == null) return View("Error");
+
+            return View(project);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public async Task<IActionResult> DeleteProject(int id)
+        {
+            var project = await _projectRepository.GetByIdAsync(id);
+            if (project == null) return View("Error");
+
+            _projectRepository.Delete(project);
+            return RedirectToAction("Index");
+        }
     }
 }
