@@ -1,0 +1,33 @@
+﻿@model roads.ViewModels.SubcontractorViewModel
+
+<form class="container text-white-50" method="post" asp-action="AddSubProject">
+    <div class="form-group">
+        <h4 asp-for="id">Подрядчики</h4>
+        <h4 asp-for="id">@Model.ProjectId: <dr/> @Model.ProjectName</h4>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="ProjectId" type="hidden" class="form-control" id="" placeholder="p_id">
+        <span asp-validation-for="ProjectId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name">Имя</label>
+        <input asp-for="Name" type="text" class="form-control" id="" placeholder="имя">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContactPerson">Контакты</label>
+        <input asp-for="ContactPerson" type="text" class="form-control" id="" placeholder="контакты">
+        <span asp-validation-for="ContactPerson" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="ContactInfo">Контакт информация</label>
+        <input asp-for="ContactInfo" type="text" class="form-control" id="" placeholder="">
+        <span asp-validation-for="ContactInfo" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>

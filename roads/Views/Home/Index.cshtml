@@ -14,7 +14,12 @@
             <h3>Наши популярные проекты:</h3>
         </div>
         <div class="d-flex justify-content-between mt2">
-            @foreach (var item in Model)
+            @{
+                var random = new Random();
+                var randomItems = Model.OrderBy(x => random.Next()).Take(3);
+            }
+
+            @foreach (var item in randomItems)
             {
                 <div class="bg-dark">
                     <div class="text-white-50">

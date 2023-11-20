@@ -15,6 +15,7 @@
                 <th scope="col">End date</th>
                 <th scope="col">Road address</th>
                 <th scope="col">More</th>
+                <th scope="col">Edit</th>
             </tr>
         </thead>
         <tbody>
@@ -26,12 +27,19 @@
                     <td>@item.ProjectStatus.Status</td>
                     <td>@item.StartDate.Date.ToString("d")</td>
                     <td>@item.EndDate.ToString("d")</td>
-                    <td>@item.RoadAddress</td>
+                    <td style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis">@item.RoadAddress</td>
                     <td>
                         <a asp-controller="Project"
                            asp-action="Details" asp-route-id="@item.Id"
                            class="text-decoration-none text-white-50">
                             More
+                        </a>
+                    </td>
+                    <td>
+                        <a asp-controller="Project"
+                           asp-action="Edit" asp-route-id="@item.Id"
+                           class="text-decoration-none text-white-50">
+                            Edit
                         </a>
                     </td>
                 </tr>

@@ -1,4 +1,5 @@
-﻿@model Project
+﻿@using System.Globalization;
+@model Project
 
 @{
 }
@@ -20,11 +21,30 @@
                 Отметка о выполнении: @Model.ProjectStatus.Status
                 <br />@Model.Description
                 <br />Дата: @Model.StartDate.ToLongDateString() - @Model.EndDate.ToLongDateString()
+                <br />Затраты:
+                <ul>
+                    @foreach (var exp in Model.Expenses)
+                    {
+                        <li>
+                            @exp.Description : @exp.Amount.ToString("C", CultureInfo.GetCultureInfo("be-BY"))
+                        </li>
+                    }
+                </ul>
+                Подрядчики:
+                <ul>
+                    @foreach (var sub in Model.Subcontractors)
+                    {
+                        <li>
+                            @sub.ContactPerson  : @sub.ContactInfo
+                        </li>
+                    }
+                </ul>
             </p>
             <button class="btn btn-outline-secondary"
                     type="button" name="btnLink" id="btnLink">
-                Дополнительно
+                Задачи
             </button>
+
             <div class="mt-2">
                 <a class="text-decoration-none text-white-50" asp-controller="Project"
                    asp-action="Index">
@@ -47,7 +67,11 @@
                     @foreach (var t in Model.Tasks)
                     {
                         <li>
-                            @t.Description - @t.Status
+                            @t.Description - @t.Status (<a asp-controller="Project"
+                                                           asp-action="EditTask"
+                                                           asp-route-id="@t.Id">
+                                Edit
+                            </a>)
                         </li>
                     }
                 </ul>

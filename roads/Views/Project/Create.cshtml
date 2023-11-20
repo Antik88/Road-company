@@ -2,59 +2,66 @@
 @{
 }
 
-@*         public string ProjectName { get; set; }
-        public string Description { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
-        public string RoadAddress { get; set; }
-        public double startPointLat { get; set; }
-        public double startPointLng { get; set; }
-        public double endPointLat { get; set; }
-        public double endPointLng { get; set; }
- *@
-
-<form class="container text-white-50">
+<form class="container text-white-50" method="post" asp-action="Create">
     <div class="form-group">
-        <label for="">Имя проекта</label>
-        <input type="text" class="form-control"
+        <label asp-for="ProjectName">Имя проекта</label>
+        <input asp-for="ProjectName" type="text" class="form-control"
                id="name" aria-describedby="" placeholder="Имя проекта">
+        <span asp-validation-for="ProjectName" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="">Описание</label>
-        <input type="text" class="form-control" id="" placeholder="Описание">
+        <label asp-for="Description">Описание</label>
+        <input asp-for="Description" type="text" class="form-control" id="" placeholder="Описание">
+        <span asp-validation-for="Description" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="">Дата начала работ</label>
-        <input type="date" class="form-control" id="" placeholder="">
+        <label asp-for="StartDate">Дата начала работ</label>
+        <input asp-for="StartDate" type="date" class="form-control" id="" placeholder="">
+        <span asp-validation-for="StartDate" class="text-danger"></span>
     </div>
     <div class="form-group">
-        <label for="">Дата окончания работ</label>
-        <input type="date" class="form-control" id="" placeholder="">
+        <label asp-for="EndDate">Дата окончания работ</label>
+        <input asp-for="EndDate" type="date" class="form-control" id="" placeholder="">
+        <span asp-validation-for="EndDate" class="text-danger"></span>
     </div>
 
     <div class="d-flex">
         <div class="map_item mt-2"
              id="map" style="height: 500px; width: 580px"></div>
 
-        <button id="clearMarkers" class="btn btn-primary"
-        style="width:100px; height:70px"
-        >Убрать маркеры</button>
-
-        <div class="flex-column">
+        <div class="flex-column ms-2">
             <div class="d-flex flex-lg-row">
                 <p class="me-2">Координаты начала дороги: </p>
-                <p id="startMarkerLat" class="me-2"></p>
-                <p id="startMarkerLng"></p>
+                <input type="number" asp-for="startPointLat" type="hidden" id="startMarkerLat" />
+                <span asp-validation-for="startPointLat" class="text-danger"></span>
+                <input type="number" asp-for="startPointLng" type="hidden" id="startMarkerLng" />
+                <span asp-validation-for="startPointLng" class="text-danger"></span>
+                <p id="startMarkerLatDisplay" class="me-2"></p>
+                <p id="startMarkerLngDisplay"></p>
             </div>
             <div class="d-flex flex-lg-row">
                 <p class="me-2">Координаты конца дороги: </p>
-                <p id="endMarkerLat" class="me-2"></p>
-                <p id="endMarkerLng"></p>
+                <input type="number" asp-for="endPointLat" type="hidden" id="endMarkerLat" />
+                <span asp-validation-for="endPointLat" class="text-danger"></span>
+                <input type="number" asp-for="endPointLng" type="hidden" id="endMarkerLng" />
+                <span asp-validation-for="endPointLng" class="text-danger"></span>
+                <p id="endMarkerLatDisplay" class="me-2"></p>
+                <p id="endMarkerLngDisplay"></p>
             </div>
+            <div class="d-flex flex-lg-row">
+                <p class="me-2">Адрес участка дороги: </p>
+                <input asp-for="RoadAddress" id="address" type="hidden"/>
+                <span asp-validation-for="RoadAddress" class="text-danger"></span>
+                <p id="addressDisplay" style="max-width: 200px"></p>
+            </div>
+            <button id="clearMarkers" class="btn btn-primary"
+                    style="width:160px; height:40px">
+                Убрать маркеры
+            </button>
         </div>
     </div>
 
-    <button type="submit" class="btn btn-primary" >Submit</button>
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
 </form>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDWdivpGSvsdwx_yGzabjOnqrD2ggzUgsQ&callback=initMap"></script>
@@ -79,14 +86,43 @@
                 placeMarker(event.latLng);
 
                 if (markers.length == 1) {
-                    document.getElementById('startMarkerLat').innerHTML = event.latLng.lat()
-                    document.getElementById('startMarkerLng').innerHTML = event.latLng.lng()
+                    document.getElementById('startMarkerLat').value = event.latLng.lat()
+                    document.getElementById('startMarkerLng').value = event.latLng.lng()
+
+                    console.log(
+                        document.getElementById('startMarkerLat').value + " " + 
+                        document.getElementById('startMarkerLng').value
+                    )
+
+                    document.getElementById('startMarkerLatDisplay').innerHTML = event.latLng.lat()
+                    document.getElementById('startMarkerLngDisplay').innerHTML = event.latLng.lng()
                 }
                 else {
-                    document.getElementById('endMarkerLat').innerHTML = event.latLng.lat()
-                    document.getElementById('endMarkerLng').innerHTML = event.latLng.lng()
+                    document.getElementById('endMarkerLat').value = event.latLng.lat()
+                    document.getElementById('endMarkerLng').value = event.latLng.lng()
+
+                    document.getElementById('endMarkerLatDisplay').innerHTML = event.latLng.lat()
+                    document.getElementById('endMarkerLngDisplay').innerHTML = event.latLng.lng()
+
+                    var lat = event.latLng.lat();
+                    var lng = event.latLng.lng();
+
+                    var url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`;
+
+                    fetch(url)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.address) {
+                                var address = data.display_name;
+                                document.getElementById('address').value = address
+                                document.getElementById('addressDisplay').innerHTML = address
+                            } else {
+                                console.log('Адрес не найден');
+                            }
+                        })
                 }
             }
+
         });
 
         document.getElementById('clearMarkers').addEventListener('click', function () {
@@ -102,6 +138,7 @@
             });
 
             markers.push(marker);
+
         }
 
         function clearMarkers() {
@@ -110,11 +147,20 @@
             });
 
             markers = [];
-            document.getElementById('startMarkerLat').innerHTML = ''
-            document.getElementById('startMarkerLng').innerHTML = ''
-            document.getElementById('endMarkerLat').innerHTML = ''
-            document.getElementById('endMarkerLng').innerHTML = ''
+            document.getElementById('startMarkerLat').value = ''
+            document.getElementById('startMarkerLng').value = ''
+            document.getElementById('endMarkerLat').value = ''
+            document.getElementById('endMarkerLng').value = ''
+
+            document.getElementById('startMarkerLatDisplay').innerHTML = ''
+            document.getElementById('startMarkerLngDisplay').innerHTML = ''
+            document.getElementById('endMarkerLatDisplay').innerHTML = ''
+            document.getElementById('endMarkerLngDisplay').innerHTML = ''
+
+            document.getElementById('address').value = ''
+            document.getElementById('addressDisplay').innerHTML = ''
         }
+
     }
 
     initMap()

@@ -1,0 +1,69 @@
+﻿@using roads.ViewModels
+@model ProjectViewModel
+
+<form class="container text-white-50" method="post" asp-action="Edit">
+    <h4>Редактирование</h4>
+    <input type="hidden" asp-for="ProjectStatusId" id="StatusId" />
+    <input type="hidden" asp-for="endPointLat" id="endPointLat" />
+    <input type="hidden" asp-for="endPointLng" id="endPointLng" />
+    <input type="hidden" asp-for="startPointLat" id="startPointLat" />
+    <input type="hidden" asp-for="startPointLng" id="startPointLng" />
+    <div class="form-group">
+        <label asp-for="ProjectName">Имя проекта</label>
+        <input asp-for="ProjectName" type="text" class="form-control"
+               id="name" aria-describedby="" placeholder="Имя проекта">
+        <span asp-validation-for="ProjectName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Description">Описание</label>
+        <input asp-for="Description" type="text" class="form-control" id="" placeholder="Описание">
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="StartDate">Дата начала работ</label>
+        <input asp-for="StartDate" type="date" class="form-control" id="" placeholder="">
+        <span asp-validation-for="StartDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="EndDate">Дата окончания работ</label>
+        <input asp-for="EndDate" type="date" class="form-control" id="" placeholder="">
+        <span asp-validation-for="EndDate" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="RoadAddress">Адрес участка дороги</label>
+        <input asp-for="RoadAddress" type="text" class="form-control" id="" placeholder="">
+        <span asp-validation-for="RoadAddress" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ProjectStatus.Status">Статус</label>
+        <input asp-for="ProjectStatus.Status" type="text" class="form-control" id="" placeholder="">
+        <span asp-validation-for="ProjectStatus.Status" class="text-danger"></span>
+    </div>
+
+    <div class="form-group mt-2">
+        <a asp-controller="Project"
+           asp-action="AddTask" asp-route-id="@Model.Id"
+            class="btn btn-outline-secondary"
+                type="button" name="btnLink" id="btnLink">
+            Добавить задачу
+        </a>
+    </div>
+    <div class="form-group mt-2">
+        <a asp-controller="Project"
+           asp-action="AddExp" asp-route-id="@Model.Id"
+            class="btn btn-outline-secondary"
+                type="button" name="btnLink" id="btnLink">
+            Добавить затрату
+        </a>
+    </div>
+    <div class="form-group mt-2">
+        <a asp-controller="Project"
+           asp-action="SubProject" asp-route-id="@Model.Id"
+            class="btn btn-outline-secondary"
+                type="button" name="btnLink" id="btnLink">
+            Добавить подрядчика
+        </a>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Submit</button>
+</form>

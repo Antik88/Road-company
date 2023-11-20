@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
+﻿using roads.Models;
 
-namespace roads.Models
+namespace roads.ViewModels
 {
-    public class Project
+    public class ProjectViewModel
     {
         public int Id { get; set; }
         public string ProjectName { get; set; }
@@ -17,15 +16,6 @@ namespace roads.Models
         public double endPointLng { get; set; }
         public int ProjectStatusId { get; set; }
         public ProjectStatus ProjectStatus { get; set; }
-
-        [JsonIgnore]
-        public List<Task> Tasks { get; set; }
-        [JsonIgnore]
-        public List<Expense> Expenses { get; set; }
-        [JsonIgnore]
-        public List<Subcontractor> Subcontractors { get; set; }
-
-        [JsonIgnore]
-        public List<Material> Materials { get; set; }
+        public List<Models.Task> Tasks { get; set; }
     }
 }
