@@ -26,8 +26,11 @@
                         <li class="nav-item">
                             <a class="nav-link text-white-50" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                         </li>
-                        <li class="nav-item">
+                        <li class="nav-item admin-link">
                             <a class="nav-link text-white-50" asp-area="" asp-controller="Admin" asp-action="Index">AdminPanel</a>
+                        </li>
+                        <li class="nav-item login-link">
+                            <a class="nav-link text-white-50" asp-area="" asp-controller="User" asp-action="Login">Login</a>
                         </li>
                     </ul>
                 </div>
@@ -48,6 +51,17 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        var accessToken = localStorage.getItem('Role');
+
+        if (accessToken == 'Admin') {
+            $('.admin-link').show();
+            $('.login-link').hide();
+        } else {
+            $('.admin-link').hide();
+            $('.login-link').show();
+        }
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

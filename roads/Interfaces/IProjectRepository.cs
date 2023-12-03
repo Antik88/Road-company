@@ -12,6 +12,7 @@ namespace roads.Interfaces
         bool AddTask(Models.Task task);
         bool AddExpense(Expense expense);
         bool AddSub(Subcontractor sub);
+        bool AddMaterial(Material material);
         bool Add(Project project);
         bool Update(Project project);
         bool UpdateTask(Models.Task task);

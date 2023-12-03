@@ -175,6 +175,39 @@ namespace roads.Controllers
             _projectRepository.AddSub(sub);
             return RedirectToAction("Index");
         }
+
+        public async Task<IActionResult> MaterialProject(int id)
+        {
+            var project = await _projectRepository.GetByIdAsync(id);
+            if (project == null) return View("Error");
+
+            var material = new MaterialViewModel 
+            {
+                ProjectId = id,
+                ProjectName = project.ProjectName
+            };
+
+            return View(material);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> AddMaterialProject(MaterialViewModel materialVm)
+        {
+            var project = await _projectRepository.GetByIdAsync(materialVm.ProjectId);
+            if (project == null) return View("Error");
+
+            var material = new Material 
+            {
+                Project = project,
+                Name = materialVm.Name,
+                UnitOfMeasurement = materialVm.UnitOfMeasurement,
+                Quantity = materialVm.Quantity 
+            };
+
+            _projectRepository.AddMaterial(material);
+            return RedirectToAction("Index");
+        }
+
         public async Task<IActionResult> EditTask(int id)
         {
             var task = await _projectRepository.GetTaskById(id);

@@ -66,6 +66,14 @@
     </div>
     <div class="form-group mt-2">
         <a asp-controller="Project"
+           asp-action="MaterialProject" asp-route-id="@Model.Id"
+           class="btn btn-outline-secondary"
+           type="button" name="btnLink" id="btnLink">
+            Материалы 
+        </a>
+    </div>
+    <div class="form-group mt-2">
+        <a asp-controller="Project"
            asp-action="Delete" asp-route-id="@Model.Id"
             class="btn btn-outline-danger"
                 type="button" name="btnLink" id="btnLink">

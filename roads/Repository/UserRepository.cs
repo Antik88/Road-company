@@ -51,5 +51,11 @@ namespace roads.Repository
         {
             throw new NotImplementedException();
         }
+
+        public async Task<User> CheckCredentials(string login, string password)
+        {
+            return await _appDbContext.User
+                .FirstOrDefaultAsync(user => user.Login == login && user.Password == password);
+        }
     }
 }

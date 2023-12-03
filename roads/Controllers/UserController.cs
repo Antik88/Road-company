@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using roads.Data;
 using roads.Interfaces;
 using roads.Models;
@@ -20,10 +21,31 @@ namespace roads.Controllers
             return View(users);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> Details(User user)
         {
-            User user = await _userRepository.GetByIdAsync(id);
             return View(user);
+        }
+
+        public async Task<IActionResult> Login()
+        {
+            return View();
+        }
+
+        [HttpPost, ActionName("Login")]
+        public async Task<IActionResult> LoginUser(User user)
+        {
+            var authenticatedUser = await _userRepository.CheckCredentials(user.Login, user.Password);
+
+            if (authenticatedUser != null)
+            {
+                ViewBag.Role = authenticatedUser.Role;
+                return RedirectToAction("Details", authenticatedUser);
+            }
+            else
+            {
+                ModelState.AddModelError(string.Empty, "Неверный логин или пароль");
+                return View();
+            }
         }
     }
 }

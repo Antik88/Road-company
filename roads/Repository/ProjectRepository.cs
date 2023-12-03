@@ -98,6 +98,11 @@ namespace roads.Repository
             _appDbContext.Subcontractors.Add(sub);
             return Save();
         }
+        public bool AddMaterial(Material material)
+        {
+            _appDbContext.Materials.Add(material);
+            return Save();
+        }
         public bool UpdateTask(Models.Task task)
         {
             _appDbContext.Tasks.Update(task);

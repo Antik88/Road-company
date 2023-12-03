@@ -30,7 +30,26 @@
                         </li>
                     }
                 </ul>
-                Подрядчики:
+                @if(Model.Materials.Count() != 0)
+                {
+                    <div>
+                        Материалы:
+                    </div>
+                }
+                <ul>
+                    @foreach (var material in Model.Materials)
+                    {
+                        <li>
+                            @material.Name : @material.Quantity@material.UnitOfMeasurement
+                        </li>
+                    }
+                </ul>
+                @if(Model.Subcontractors.Count() != 0)
+                {
+                    <div>
+                        Подрядчики:
+                    </div>
+                }
                 <ul>
                     @foreach (var sub in Model.Subcontractors)
                     {

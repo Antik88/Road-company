@@ -1,0 +1,39 @@
+﻿@model roads.ViewModels.MaterialViewModel
+
+<form class="container text-white-50" method="post" asp-action="AddMaterialProject">
+    <div class="form-group">
+        <h4 asp-for="id">Добавить использование материала к проекту</h4>
+        <h4 asp-for="id">@Model.ProjectId: <dr/> @Model.ProjectName</h4>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="ProjectId" type="hidden" class="form-control" id="" placeholder="p_id">
+        <span asp-validation-for="ProjectId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Name">Название</label>
+        <input asp-for="Name" type="text" class="form-control" id="" placeholder="">
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="UnitOfMeasurement">Единица измерения</label>
+        <select asp-for="UnitOfMeasurement" class="form-control" id="">
+            <option value="">Выберите единицу измерения</option>
+            <option value="кг">Кг</option>
+            <option value="цэ">Цэ</option>
+            <option value="т">Т</option>
+            <option value="л">Л</option>
+        </select>
+        <span asp-validation-for="UnitOfMeasurement" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Quantity">Количество</label>
+        <input asp-for="Quantity" type="text" class="form-control" id="" placeholder="Количество">
+        <span asp-validation-for="Quantity" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Применить</button>
+</form>
