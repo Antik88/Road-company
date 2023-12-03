@@ -193,12 +193,9 @@ namespace roads.Controllers
         [HttpPost]
         public async Task<IActionResult> AddMaterialProject(MaterialViewModel materialVm)
         {
-            var project = await _projectRepository.GetByIdAsync(materialVm.ProjectId);
-            if (project == null) return View("Error");
-
             var material = new Material 
             {
-                Project = project,
+                ProjectId = materialVm.ProjectId,
                 Name = materialVm.Name,
                 UnitOfMeasurement = materialVm.UnitOfMeasurement,
                 Quantity = materialVm.Quantity 

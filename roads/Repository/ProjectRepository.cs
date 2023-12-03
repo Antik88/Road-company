@@ -66,6 +66,7 @@ namespace roads.Repository
                .Include(p => p.Tasks)
                .Include(p => p.Expenses)
                .Include(p => p.Subcontractors)
+               .Include(p => p.Materials)
                .FirstOrDefaultAsync(project => project.Id == id);
         }
 
@@ -101,6 +102,20 @@ namespace roads.Repository
         public bool AddMaterial(Material material)
         {
             _appDbContext.Materials.Add(material);
+            _appDbContext.SaveChanges();
+
+            int id = material.Id;
+
+            var orderMaterial = new OrderMaterial
+            {
+                MaterialId = id,
+                QuantityOrdered = material.Quantity,
+                UnitOfMeasurement = material.UnitOfMeasurement,
+                OrderDate = DateTime.Now
+            };
+
+            _appDbContext.OrderMaterials.Add(orderMaterial);
+
             return Save();
         }
         public bool UpdateTask(Models.Task task)

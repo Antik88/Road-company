@@ -47,5 +47,9 @@ namespace roads.Controllers
                 return View();
             }
         }
+        public async Task<IActionResult> LogOut()
+        {
+            return View();
+        }
     }
 }

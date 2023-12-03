@@ -1,0 +1,27 @@
+﻿@model IEnumerable<OrderMaterial>
+
+<div class="container"> 
+    <table class="table text-white">
+        <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Кол-во</th>
+                <th scope="col">Ед. изм.</th>
+                <th scope="col">Дата</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <th scope="row">@item.Id</th>
+                    <td>@item.Material.Name</td>
+                    <td>@item.Material.Quantity</td>
+                    <td>@item.UnitOfMeasurement</td>
+                    <td>@item.OrderDate.ToString("d")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
