@@ -30,7 +30,6 @@ namespace roads.Controllers
         {
             return View();
         }
-
         [HttpPost, ActionName("Login")]
         public async Task<IActionResult> LoginUser(User user)
         {
@@ -47,6 +46,7 @@ namespace roads.Controllers
                 return View();
             }
         }
+
         public async Task<IActionResult> LogOut()
         {
             return View();
